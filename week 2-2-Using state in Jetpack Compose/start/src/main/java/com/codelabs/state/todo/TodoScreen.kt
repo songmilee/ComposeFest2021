@@ -120,6 +120,9 @@ fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: M
 @Composable
 fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember { mutableStateOf("") }
+    val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
+    val isVisible = text.isNotBlank()
+
     Column {
         Row(
             Modifier
@@ -139,8 +142,15 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                     setText("")
                 },
                 text = "Add",
-                modifier = Modifier.align(CenterVertically)
+                modifier = Modifier.align(CenterVertically),
+                enabled = text.isNotBlank()
             )
+        }
+
+        if(isVisible) {
+            AnimatedIconRow(icon = icon, onIconChange = setIcon, modifier = Modifier.padding(top = 8.dp))
+        } else {
+            Spacer(modifier = Modifier.padding(16.dp))
         }
     }
 }
