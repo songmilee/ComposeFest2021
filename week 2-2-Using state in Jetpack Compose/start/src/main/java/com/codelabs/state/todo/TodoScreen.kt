@@ -93,7 +93,11 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(todo.task)
-        val iconAlpha = randomTint() //recomposition이 발생함
+        //list가 업데이트 될 때마다 변경되지 않음
+        // recomposition 되었을 때, remember에 기억된 값을 이용
+        val iconAlpha = remember(todo.id) {
+            randomTint()
+        } // icon Alpha가 compose tree에 추가
         Icon(
             imageVector = todo.icon.imageVector,
             tint = LocalContentColor.current.copy(alpha = iconAlpha),
