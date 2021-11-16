@@ -123,6 +123,18 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
     val isVisible = text.isNotBlank()
 
+    TodoItemInput(text, setText, onItemComplete, icon, setIcon, isVisible)
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    setText: (String) -> Unit,
+    onItemComplete: (TodoItem) -> Unit,
+    icon: TodoIcon,
+    onIconChange: (TodoIcon) -> Unit,
+    isVisible: Boolean
+) {
     Column {
         Row(
             Modifier
@@ -147,8 +159,12 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
             )
         }
 
-        if(isVisible) {
-            AnimatedIconRow(icon = icon, onIconChange = setIcon, modifier = Modifier.padding(top = 8.dp))
+        if (isVisible) {
+            AnimatedIconRow(
+                icon = icon,
+                onIconChange = onIconChange,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         } else {
             Spacer(modifier = Modifier.padding(16.dp))
         }
